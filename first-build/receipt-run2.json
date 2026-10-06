@@ -1,0 +1,214 @@
+{
+  "status": "FIRST_BUILD_PASS",
+  "configuration": {
+    "scope": "Ordered revoke acknowledgement before bind read, plus one trust_prior sensitivity seam",
+    "excluded": [
+      "revocation after bind read",
+      "OS atomicity",
+      "production issuer security",
+      "hostile issuer",
+      "cryptographic identity",
+      "evidence admission",
+      "replay prevention",
+      "distributed revocation",
+      "concurrent revocation",
+      "target mutation"
+    ],
+    "python": "3.10.21 (main, Sep 19 2026, 01:08:03) [GCC 12.2.0]",
+    "created_at": "2026-10-06T09:51:37.107425+00:00",
+    "source_sha256": {
+      "issuer.py": "a95ecf12073cae9ae3c8fc45575f64660c48edef41b7501ef5da60c1e163bf07",
+      "gate.py": "50ed33cc0d37dcd8cc90ab837a2d6966f0e95ced9426114106d9d8a56a8fc353",
+      "run.py": "ddf29524fd3bcb908d2c55ae7ebc314f379f4be82cc26ea4e424e8e85a44faf5",
+      "README.md": "a761313c62a6b825547e5c30cb8bce386040a19e1ddfcd6e5e68e21241829050"
+    },
+    "driver_supplied_packet_sha256": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+    "ticket": "fixture-ticket-001"
+  },
+  "cases": [
+    {
+      "case": "A",
+      "configuration": {
+        "ticket": "fixture-ticket-001",
+        "trust_prior_used": false,
+        "trust_prior_supplied": null,
+        "driver_supplied_packet_sha256": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+        "issuer_seed_request": {
+          "ticket": "fixture-ticket-001",
+          "packet_sha256": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e"
+        }
+      },
+      "observed": {
+        "check_packet_sha256_observed": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+        "bind_packet_sha256_observed": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+        "check_authority": {
+          "accepted": true,
+          "revoked": []
+        },
+        "bind_authority": {
+          "accepted": false,
+          "revoked": [
+            "fixture-ticket-001"
+          ]
+        },
+        "bind_fresh_read": true,
+        "writer_entry_count": 0,
+        "events": [
+          {
+            "event": "issuer_seeded",
+            "seeded": true
+          },
+          {
+            "event": "live_read",
+            "accepted": true,
+            "revoked": []
+          },
+          {
+            "event": "initial_check_passed"
+          },
+          {
+            "event": "issuer_revocation_acknowledged",
+            "revoked": "fixture-ticket-001"
+          },
+          {
+            "event": "live_read",
+            "accepted": false,
+            "revoked": [
+              "fixture-ticket-001"
+            ]
+          }
+        ],
+        "bind_reason": "authority_not_current"
+      },
+      "derived": {
+        "before_target_sha256": "d19bb4e148df49d1da331e734055174d698dbed7e4fb72efe4388e48affbf8c5",
+        "after_target_sha256": "d19bb4e148df49d1da331e734055174d698dbed7e4fb72efe4388e48affbf8c5",
+        "target_unchanged": true,
+        "target_path": "target.txt",
+        "role": "protection",
+        "verdict": "PROTECTION_HELD"
+      }
+    },
+    {
+      "case": "B",
+      "configuration": {
+        "ticket": "fixture-ticket-001",
+        "trust_prior_used": false,
+        "trust_prior_supplied": null,
+        "driver_supplied_packet_sha256": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+        "issuer_seed_request": {
+          "ticket": "fixture-ticket-001",
+          "packet_sha256": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e"
+        }
+      },
+      "observed": {
+        "check_packet_sha256_observed": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+        "bind_packet_sha256_observed": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+        "check_authority": {
+          "accepted": true,
+          "revoked": []
+        },
+        "bind_authority": {
+          "accepted": true,
+          "revoked": []
+        },
+        "bind_fresh_read": true,
+        "writer_entry_count": 1,
+        "events": [
+          {
+            "event": "issuer_seeded",
+            "seeded": true
+          },
+          {
+            "event": "live_read",
+            "accepted": true,
+            "revoked": []
+          },
+          {
+            "event": "initial_check_passed"
+          },
+          {
+            "event": "live_read",
+            "accepted": true,
+            "revoked": []
+          },
+          {
+            "event": "writer_entered"
+          },
+          {
+            "event": "write_completed"
+          }
+        ],
+        "bind_reason": "written"
+      },
+      "derived": {
+        "before_target_sha256": "d19bb4e148df49d1da331e734055174d698dbed7e4fb72efe4388e48affbf8c5",
+        "after_target_sha256": "5790b35d4cd9f38c5baf3e8e8108db1743ddfa6561db49f72091b56690571ad1",
+        "target_unchanged": false,
+        "target_path": "target.txt",
+        "role": "protection",
+        "verdict": "PROTECTION_HELD"
+      }
+    },
+    {
+      "case": "M",
+      "configuration": {
+        "ticket": "fixture-ticket-001",
+        "trust_prior_used": true,
+        "trust_prior_supplied": {
+          "accepted": true,
+          "revoked": []
+        },
+        "driver_supplied_packet_sha256": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+        "issuer_seed_request": {
+          "ticket": "fixture-ticket-001",
+          "packet_sha256": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e"
+        }
+      },
+      "observed": {
+        "check_packet_sha256_observed": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+        "bind_packet_sha256_observed": "cecb4152754647c0f6b5a4dc8e799d47369f366ea6b5baf4dc74c40f6ef6173e",
+        "check_authority": {
+          "accepted": true,
+          "revoked": []
+        },
+        "bind_authority": null,
+        "bind_fresh_read": false,
+        "writer_entry_count": 1,
+        "events": [
+          {
+            "event": "issuer_seeded",
+            "seeded": true
+          },
+          {
+            "event": "live_read",
+            "accepted": true,
+            "revoked": []
+          },
+          {
+            "event": "initial_check_passed"
+          },
+          {
+            "event": "issuer_revocation_acknowledged",
+            "revoked": "fixture-ticket-001"
+          },
+          {
+            "event": "writer_entered"
+          },
+          {
+            "event": "write_completed"
+          }
+        ],
+        "bind_reason": "written"
+      },
+      "derived": {
+        "before_target_sha256": "d19bb4e148df49d1da331e734055174d698dbed7e4fb72efe4388e48affbf8c5",
+        "after_target_sha256": "5790b35d4cd9f38c5baf3e8e8108db1743ddfa6561db49f72091b56690571ad1",
+        "target_unchanged": false,
+        "target_path": "target.txt",
+        "role": "sensitivity",
+        "verdict": "SUBSTITUTION_VISIBLE"
+      }
+    }
+  ]
+}

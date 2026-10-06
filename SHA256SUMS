@@ -1,0 +1,9 @@
+8d09015d9d6c7f7f19887fe2a8a42b31c4646a0b065febe3f0d5cee05bf0d125  ./LICENSE
+018c174d4c3faa76e2d5612edbfece45ccd4b02b6d6247b32d8681566acbc8b3  ./README.md
+a761313c62a6b825547e5c30cb8bce386040a19e1ddfcd6e5e68e21241829050  ./first-build/README.md
+fd7b3d57f2a78b83701ebb6e85580e99e49feb8dd1230fbc3d9a2ca08a2b1c2c  ./first-build/SHA256SUMS
+50ed33cc0d37dcd8cc90ab837a2d6966f0e95ced9426114106d9d8a56a8fc353  ./first-build/gate.py
+a95ecf12073cae9ae3c8fc45575f64660c48edef41b7501ef5da60c1e163bf07  ./first-build/issuer.py
+2aad958ccbb1f95c1379ebcc629cf51aa0df6c8484601ccc3e9dd29e4ca6aafd  ./first-build/receipt-run1.json
+f45d0ace237a337b80de6426f93b2e1f830d485ef37aa7bc801b8f3115479b4c  ./first-build/receipt-run2.json
+ddf29524fd3bcb908d2c55ae7ebc314f379f4be82cc26ea4e424e8e85a44faf5  ./first-build/run.py
