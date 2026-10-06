@@ -16,6 +16,12 @@ The preserved First Build contains three cases:
 
 The two preserved First Build receipts differ only in `configuration.created_at`; their stable fields match.
 
+## Comparison conditions
+
+A and B use the same packet bytes, seed bytes, target path, payload and ticket, with a fresh issuer seeded equivalently for each case. The intended difference at bind is withdrawal state.
+
+`trust_prior` is deliberately unsafe test instrumentation used only by M. It is not a supported operating mode.
+
 ## Run it
 
 Python 3, standard library only.
@@ -27,9 +33,15 @@ python3 run.py
 
 The run writes a new `receipt.json` and prints the same JSON. A new run is a reproduction attempt; it does not replace the two preserved First Build receipts.
 
+A newly generated `receipt.json` may also report `FIRST_BUILD_PASS`; that status alone does not make it one of the preserved First Build receipts.
+
 ## Evidence custody
 
 `first-build/` preserves the accepted First Build bytes. Its [`SHA256SUMS`](first-build/SHA256SUMS) pins the four source files and the two preserved receipts.
+
+The preserved receipts contain fixture-generated observations and derived verdicts; they are not independent attestations.
+
+The preserved [`first-build/README.md`](first-build/README.md) retains its pre-publication wording, including “Not a GitHub repository”. Its bytes are intentionally unchanged because they are receipt-bound.
 
 Do not edit files inside `first-build/` and then describe the changed tree as the accepted First Build. A changed source tree is a new build and needs its own receipt and claim boundary.
 
@@ -39,7 +51,7 @@ Do not edit files inside `first-build/` and then describe the changed tree as th
 
 **Not proved:** production security, hostile-issuer resistance, OS enforcement, cryptographic identity, atomic read-to-write protection, revocation after the final authority read, or how often this failure occurs elsewhere. A and B do not present the earlier pass to bind.
 
-**Out of scope:** evidence admission, replay protection, distributed or concurrent revocation, agent or framework machinery, certification, and production readiness.
+**Out of scope:** evidence admission, replay protection, distributed or concurrent revocation, agent or framework machinery, certification, and production readiness. “Target mutation” in the preserved receipt exclusions means concurrent or external mutation outside the fixture's intended payload write.
 
 ## Repository layout
 
