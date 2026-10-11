@@ -1,0 +1,34 @@
+command: python3 test_classifier.py
+python: Python 3.10.21
+cwd: /workspace/artifacts/v032/reliance-classifier-v0.3.2-candidate
+date: 2026-10-11T13:34:24Z
+note: test output is this file; classifier-output.txt is written by the test and is not overwritten by classify.py
+---
+A: NOT_CONTRADICTED_BY_THIS_OBSERVATION
+M: CLAIM_CONTRADICTED
+B: NOT_CONTRADICTED_BY_THIS_OBSERVATION
+R1 matching binding evidence (A): ticket and bound instruction present, well-formed and consistent
+synthetic missing bind_reason: UNRESOLVED
+synthetic withdrawal without continuing-effect evidence: UNRESOLVED
+R2 synthetic bind_reason=written with writer_entry_count=0: UNRESOLVED
+R2 synthetic refusal with writer_entry_count=1: UNRESOLVED
+synthetic no withdrawal + missing freshness: NOT_CONTRADICTED
+R1 synthetic missing bind_packet_sha256_observed: UNRESOLVED
+R1 synthetic mismatched instruction digest: UNRESOLVED
+R1 synthetic missing configuration.ticket: UNRESOLVED
+R1 synthetic mismatched ticket fields: UNRESOLVED
+R1 synthetic malformed instruction digest: UNRESOLVED
+R1 synthetic equally missing instruction digests: UNRESOLVED
+R3 preserved M order: matching acknowledgement precedes writer_entered
+R3 synthetic acknowledgement after write_completed: UNRESOLVED
+R3 synthetic acknowledgement after writer_entered: UNRESOLVED
+R3 synthetic M missing acknowledgement: UNRESOLVED
+R3 synthetic M missing writer_entered: UNRESOLVED
+R3 synthetic acknowledgement for another ticket: UNRESOLVED
+R3 fresh-path B-derived ack and refusal after write_completed: expected UNRESOLVED, actual UNRESOLVED
+R3 fresh-path ack after writer_entered before write_completed: expected UNRESOLVED, actual UNRESOLVED
+R3 fresh-path missing writer_entered with later withdrawal: expected UNRESOLVED, actual UNRESOLVED
+R3 fresh-path acknowledgement for another ticket: expected NOT_CONTRADICTED_BY_THIS_OBSERVATION, actual NOT_CONTRADICTED_BY_THIS_OBSERVATION
+
+All classifier-only checks passed.
+exit_status: 0

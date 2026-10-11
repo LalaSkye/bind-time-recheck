@@ -1,0 +1,38 @@
+command: python3 classify.py
+python: Python 3.10.21
+cwd: /workspace/artifacts/v032/reliance-classifier-v0.3.2-candidate
+date: 2026-10-11T13:34:23Z
+note: classifier output is this file; tests write classifier-output.txt separately
+---
+Synthetic classification on preserved receipt observations (v0.3.2)
+R1: ticket and bound-instruction fields checked, not assumed
+R2: written/zero-entry and refusal/writer-entry are UNRESOLVED
+R3: both paths require matching acknowledgement before writer_entered
+Eligibility = recorded bind decision (bind_reason), not writer_entry_count
+
+Case A:
+  bind_reason: authority_not_current
+  writer_entry_count: 0
+  trust_prior_used: False
+  classification: NOT_CONTRADICTED_BY_THIS_OBSERVATION
+  reason: observation does not establish a contradiction
+
+Case M:
+  bind_reason: written
+  writer_entry_count: 1
+  trust_prior_used: True
+  classification: CLAIM_CONTRADICTED
+  reason: eligible and invalid authorisation established; matching acknowledgement precedes the eligibility crossing on this path
+
+Case B:
+  bind_reason: written
+  writer_entry_count: 1
+  trust_prior_used: False
+  classification: NOT_CONTRADICTED_BY_THIS_OBSERVATION
+  reason: observation does not establish a contradiction
+
+Case M (sensitivity): CLAIM_CONTRADICTED under deliberate trust_prior reuse after withdrawal.
+Case A: NOT_CONTRADICTED (fresh read refused after withdrawal).
+Case B: authorised reference (no withdrawal).
+BASIS_REQUIRES_REVALIDATION and BENIGN_CHANGE remain unexercised.
+exit_status: 0
