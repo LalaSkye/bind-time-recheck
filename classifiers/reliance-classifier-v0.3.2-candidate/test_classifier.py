@@ -7,8 +7,13 @@ control observations. No original control or compiled cache is imported.
 import json
 import sys
 from pathlib import Path
+from contextlib import redirect_stdout
+from io import StringIO
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import classify as classifier_module
 from classify import (
     classify,
     classify_detail,
@@ -266,6 +271,33 @@ def main():
         "R3 fresh-path acknowledgement for another ticket: "
         f"expected NOT_CONTRADICTED_BY_THIS_OBSERVATION, actual {got}"
     )
+
+    # Reviewer counterexample 1: the closing summary must follow the verdict.
+    mutated_receipt = json.loads(json.dumps(RECEIPT))
+    for case in mutated_receipt["cases"]:
+        if case["case"] == "M":
+            case["observed"].pop("bind_packet_sha256_observed", None)
+    with TemporaryDirectory() as td:
+        receipt_path = Path(td) / "mutated-receipt.json"
+        receipt_path.write_text(json.dumps(mutated_receipt))
+        capture = StringIO()
+        with patch.object(classifier_module, "RECEIPT", receipt_path):
+            with redirect_stdout(capture):
+                classifier_module.main()
+        output = capture.getvalue()
+    summary = output.split("Summary (derived from the classifications above):\n", 1)
+    assert_eq(len(summary), 2, "derived summary present")
+    assert_eq("Case M: UNRESOLVED" in summary[1], True, "missing digest M summary")
+    assert_eq("Case M: CLAIM_CONTRADICTED" in summary[1], False, "no fixed contradicted M")
+    results.append("review repair: missing M digest produces UNRESOLVED in final summary")
+
+    # Reviewer counterexample 2: count must equal the observed entry events.
+    synthetic_count_two = json.loads(json.dumps(CASES["M"]))
+    synthetic_count_two["observed"]["writer_entry_count"] = 2
+    count_detail = classify_detail(synthetic_count_two)
+    assert_eq(count_detail["verdict"], "UNRESOLVED", "two counted vs one entry")
+    assert_eq("writer_entry_count=2" in count_detail["reason"], True, "count mismatch reason")
+    results.append("review repair: M count=2 with one writer_entered is UNRESOLVED")
 
     out = HERE / "classifier-output.txt"
     text = "\n".join(results) + "\n"

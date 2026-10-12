@@ -123,6 +123,15 @@ def observation_consistency(case):
         )
     if count == 0 and completed:
         return False, "observation conflict: writer_entry_count=0 with write_completed"
+    event_entry_count = sum(
+        isinstance(ev, dict) and ev.get("event") == "writer_entered"
+        for ev in events
+    )
+    if count != event_entry_count:
+        return False, (
+            f"observation conflict: writer_entry_count={count} "
+            f"but events contain {event_entry_count} writer_entered entries"
+        )
     return True, "eligibility, writer entry and completed writing are consistent"
 
 
@@ -329,10 +338,12 @@ def main():
     print("R3: both paths require matching acknowledgement before writer_entered")
     print("Eligibility = recorded bind decision (bind_reason), not writer_entry_count")
     print()
+    verdicts = {}
     for label in ("A", "M", "B"):
         if label not in cases:
             continue
         detail = classify_detail(cases[label])
+        verdicts[label] = detail["verdict"]
         c = cases[label]
         print(f"Case {label}:")
         print(f"  bind_reason: {c['observed'].get('bind_reason')}")
@@ -341,9 +352,10 @@ def main():
         print(f"  classification: {detail['verdict']}")
         print(f"  reason: {detail['reason']}")
         print()
-    print("Case M (sensitivity): CLAIM_CONTRADICTED under deliberate trust_prior reuse after withdrawal.")
-    print("Case A: NOT_CONTRADICTED (fresh read refused after withdrawal).")
-    print("Case B: authorised reference (no withdrawal).")
+    print("Summary (derived from the classifications above):")
+    for label in ("A", "M", "B"):
+        if label in verdicts:
+            print(f"Case {label}: {verdicts[label]}")
     print("BASIS_REQUIRES_REVALIDATION and BENIGN_CHANGE remain unexercised.")
 
 
